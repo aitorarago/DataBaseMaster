@@ -1,10 +1,11 @@
 # DataBaseMaster 
-![DataBaseMaster](https://github.com/aitorarago/DataBaseMaster/blob/4ffb0d2a0546a44b64b8a7750d3d9f4479b41d7c/src/main/resources/com/example/projectofinal/IMG/icono.jpg)
+<img alt="DataBaseMaster" height="100" src="https://github.com/aitorarago/DataBaseMaster/blob/4ffb0d2a0546a44b64b8a7750d3d9f4479b41d7c/src/main/resources/com/example/projectofinal/IMG/icono.jpg" width="100"/>
+
 DataBaseMaster es una aplicación de gestión de bases de datos fácil e intuitiva,
 desarrollada en JavaFX y utilizando la librería JDBC para establecer conexiones a una base de datos de PostgreSQL o MySQL. 
 La interfaz esta diseñada para que sea lo más cómoda e intuitiva posible.
 
-//Enlace
+[https://github.com/aitorarago/DataBaseMaster/archive/refs/heads/master.zip](https://github.com/aitorarago/DataBaseMaster/archive/refs/heads/master.zip)
 
     Descarga de la aplicación:
         Haz clic en el enlace para descargar el archivo de instalación de la aplicación.
