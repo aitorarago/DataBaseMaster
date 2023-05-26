@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="scenatot" prefHeight="783.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectofinal.Clases.Funciones.Inicio">
+    <fx:include source="hello-view.fxml" />
+   <ListView fx:id="listabdid" accessibleRole="BUTTON" fixedCellSize="0.0" layoutX="316.0" layoutY="164.0" prefHeight="454.0" prefWidth="375.0" />
+   <Text layoutX="343.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mis Bases de Datos:">
+      <font>
+         <Font size="33.0" />
+      </font>
+   </Text>
+   <ImageView fx:id="delete" fitHeight="40.0" fitWidth="40.0" layoutX="316.0" layoutY="662.0" onMouseClicked="#eliminarBD" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/basura.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="add" fitHeight="40.0" fitWidth="40.0" layoutX="484.0" layoutY="662.0" onMouseClicked="#addBD" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/boton-agregar.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="show" fitHeight="40.0" fitWidth="40.0" layoutX="652.0" layoutY="662.0" onMouseClicked="#buscartablas" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/vision.png" />
+      </image>
+   </ImageView>
+
+</AnchorPane>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="783.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectofinal.Clases.Funciones.ExportarBD">
+    <fx:include source="hello-view.fxml" />
+   <Label layoutX="187.0" layoutY="281.0" text="Que deseas exportar?">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <Group fx:id="radiobuttons" layoutX="580.0" layoutY="281.0">
+      <children>
+         <RadioButton fx:id="bdid" mnemonicParsing="false" prefHeight="70.0" prefWidth="253.0" text="Base de Datos:">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </RadioButton>
+         <RadioButton fx:id="tbid" layoutY="61.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="253.0" text="Tablas:">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </RadioButton>
+      </children>
+   </Group>
+   <SplitMenuButton fx:id="selectbd" layoutX="198.0" layoutY="377.0" mnemonicParsing="false" text="Base de datos:">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </SplitMenuButton>
+   <SplitMenuButton fx:id="selecttb" layoutX="249.0" layoutY="442.0" mnemonicParsing="false" text="Tablas:">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </SplitMenuButton>
+   <Button fx:id="exportid" layoutX="742.0" layoutY="561.0" mnemonicParsing="false" onAction="#exportBD" text="Export">
+      <font>
+         <Font size="19.0" />
+      </font>
+   </Button>
+   <Label layoutX="63.0" layoutY="560.0" prefHeight="25.0" prefWidth="444.0" text="Haz click en este boton para añadir la ruta al fitchero exportado  " />
+   <Button fx:id="ruta" layoutX="518.0" layoutY="560.0" mnemonicParsing="false" onAction="#addruta" text="Ruta">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </Button>
+   <Text fx:id="rutaa" layoutX="235.0" layoutY="657.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ruta: " />
+
+
+
+</AnchorPane>

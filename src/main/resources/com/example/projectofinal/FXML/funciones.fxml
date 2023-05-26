@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectofinal.Clases.Funciones.Funciones">
+    <fx:include source="hello-view.fxml" />
+   <SplitMenuButton fx:id="bdid" layoutX="62.0" layoutY="137.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="265.0" text="Base de datos:">
+     <items>
+     </items>
+   </SplitMenuButton>
+   <ListView fx:id="functionsis" layoutX="15.0" layoutY="192.0" prefHeight="495.0" prefWidth="315.0" />
+   <Label layoutX="68.0" layoutY="70.0" text="Funciones">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <ImageView fx:id="addid" fitHeight="35.0" fitWidth="35.0" layoutX="15.0" layoutY="712.0" onMouseClicked="#addfunction" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/boton-agregar.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="dropid" fitHeight="35.0" fitWidth="35.0" layoutX="76.0" layoutY="712.0" onMouseClicked="#dropfunction" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/basura.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="editid" fitHeight="35.0" fitWidth="35.0" layoutX="143.0" layoutY="712.0" onMouseClicked="#editfunction" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/editar.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="searchid" fitHeight="35.0" fitWidth="35.0" layoutX="210.0" layoutY="712.0" onMouseClicked="#searchfunction" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/vision.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="startid" fitHeight="35.0" fitWidth="35.0" layoutX="278.0" layoutY="712.0" onMouseClicked="#runfunction" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/tocar.png" />
+      </image>
+   </ImageView>
+   <TextArea fx:id="searchfunctionid" editable="false" layoutX="404.0" layoutY="217.0" prefHeight="466.0" prefWidth="531.0">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </TextArea>
+   <Button fx:id="saveid" disable="true" layoutX="874.0" layoutY="718.0" mnemonicParsing="false" text="Save" visible="false" />
+
+
+</AnchorPane>

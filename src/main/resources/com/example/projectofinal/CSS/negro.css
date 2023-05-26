@@ -1,0 +1,40 @@
+#barrasup{
+    -fx-background-color: #000000;
+    -fx-text-color: black;
+}
+#scenatot{
+    -fx-background-color: #707171;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+}
+
+#iconoid-imageview {
+    -fx-background-color: red;
+    -fx-border: #000000;
+}
+
+.button {
+    -fx-background-color: #000000;
+    -fx-text-color: black;
+}
+
+.list-view {
+    -fx-background-color: #c8c8c8;
+}
+
+.table-view {
+    -fx-background-color: #c8c8c8;
+    -fx-text-color: red;
+}
+
+.text {
+    -fx-fill: #1bb4aa;
+}
+
+.label {
+    -fx-text-fill: #1bb4aa;
+}
+
+.text-field {
+    -fx-text-fill: #1bb4aa;
+}

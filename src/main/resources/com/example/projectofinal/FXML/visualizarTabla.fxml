@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="scenatot" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectofinal.Clases.Funciones.VisualizarDB">
+    <fx:include source="hello-view.fxml" />
+   <ListView fx:id="tablasDB" accessibleRole="BUTTON" fixedCellSize="0.0" layoutX="14.0" layoutY="117.0" prefHeight="600.0" prefWidth="256.0" />
+   <Text layoutX="14.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Las tablas de esta base de datos:" wrappingWidth="256.66319222212076">
+      <font>
+         <Font size="23.0" />
+      </font>
+   </Text>
+   <TableView fx:id="tableviewid" layoutX="268.0" layoutY="34.0" prefHeight="683.0" prefWidth="729.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0" />
+   <ImageView fx:id="nuevatabla" fitHeight="35.0" fitWidth="35.0" layoutX="90.0" layoutY="729.0" onMouseClicked="#createTable" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/boton-agregar.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="siguientebtn" fitHeight="35.0" fitWidth="35.0" layoutX="215.0" layoutY="729.0" onMouseClicked="#buscartablas" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/vision.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="eliminarid" fitHeight="35.0" fitWidth="35.0" layoutX="29.0" layoutY="729.0" onMouseClicked="#eliminartabla" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/basura.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="editartablas" fitHeight="35.0" fitWidth="35.0" layoutX="156.0" layoutY="729.0" onMouseClicked="#editartabla" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/editar.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="deleterow" fitHeight="35.0" fitWidth="35.0" layoutX="882.0" layoutY="729.0" onMouseClicked="#deleterow" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/basura.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="insertrow" fitHeight="35.0" fitWidth="35.0" layoutX="938.0" layoutY="729.0" onMouseClicked="#addNewRow" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/boton-agregar.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="consultaid" fitHeight="35.0" fitWidth="35.0" layoutX="280.0" layoutY="729.0" onMouseClicked="#consultar" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../IMG/buscar.png" />
+      </image>
+   </ImageView>
+   <ImageView  fx:id="terminalid" fitHeight="35.0" fitWidth="35.0" layoutX="343.0" layoutY="729.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#terminal">
+      <image>
+         <Image url="@../IMG/terminal.png" />
+      </image>
+   </ImageView>
+    
+
+</AnchorPane>

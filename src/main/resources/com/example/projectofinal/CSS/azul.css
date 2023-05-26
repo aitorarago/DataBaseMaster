@@ -1,0 +1,43 @@
+/* Azul CSS */
+#barrasup{
+    -fx-background-color: #00ccd3;
+    -fx-border-color: #c3fcfe;
+    -fx-border-width: 1px;
+    -fx-text-color: black;
+}
+#scenatot{
+    -fx-background-color: #c3fcfe;
+    -fx-border-color: #00ccd3;
+    -fx-border-width: 2px;
+}
+
+#iconoid-imageview {
+    -fx-background-color: red;
+    -fx-border: #bb4747;
+}
+
+.button {
+    -fx-background-color: #00ccd3;
+    -fx-text-color: black;
+}
+
+.list-view {
+    -fx-background-color: #00ccd3;
+}
+
+.table-view {
+    -fx-background-color: #00ccd3;
+    -fx-text-color: red;
+}
+
+.text {
+    -fx-fill: black;
+}
+
+.label {
+    -fx-text-fill: black;
+}
+
+.text-field {
+    -fx-text-fill: black;
+}

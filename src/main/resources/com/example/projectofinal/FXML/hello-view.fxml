@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="scenatot" prefHeight="783.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectofinal.DataMasterController">
+   <children>
+      <MenuBar fx:id="barrasup" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Bases de Datos">
+            <items>
+              <MenuItem fx:id="visualizarmisbd" mnemonicParsing="false" onAction="#visualizarBD" text="Visualizar mis BD" />
+                  <MenuItem fx:id="crearnuevabd" mnemonicParsing="false" onAction="#crearBD" text="Nueva conexión" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Importar/Exportar">
+            <items>
+              <MenuItem fx:id="importarbd" mnemonicParsing="false" onAction="#importarBD" text="Importar BD" />
+                  <MenuItem fx:id="exportarbd" mnemonicParsing="false" onAction="#exportarBD" text="Exportar BD" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Funciones/Disparadores">
+              <items>
+                  <MenuItem fx:id="funcionid" mnemonicParsing="false" onAction="#funciones" text="Funciones" />
+                  <MenuItem fx:id="triggerid" mnemonicParsing="false" onAction="#disparadores" text="Disparadores" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Personalizacion">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#moodstyle" text="Modificar Apariencia" />
+                  <MenuItem mnemonicParsing="false" onAction="#importarCSS" text="Importar desde css" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false"  >
+               <graphic>
+                  <ImageView fx:id="infoo" fitHeight="25.0" fitWidth="25.0"  pickOnBounds="true" preserveRatio="true" >
+                     <image>
+                        <Image url="@../IMG/informacion.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+                <items>
+                    <MenuItem mnemonicParsing="false" onAction="#infoFXML" text="Ayuda en la escena" />
+                    <MenuItem mnemonicParsing="false" onAction="#infoApp" text="Sobre nosotros" />
+                </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <ImageView fx:id="iconoid" disable="true" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
+         <image>
+            <Image url="@../IMG/icono.jpg" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor></ImageView>
+   </children>
+</AnchorPane>
