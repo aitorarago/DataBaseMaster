@@ -4,6 +4,7 @@ import com.example.projectofinal.Clases.Funciones.BasedeDatos;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -64,6 +65,7 @@ public class MainApplication extends Application {
 
     @Override
         public void start(Stage stage) throws IOException {
+
             pantallaprincipal=stage;
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("FXML/Bienvenido.fxml"));
             Scene scene = new Scene(fxmlLoader.load());

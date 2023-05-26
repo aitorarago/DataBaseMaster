@@ -103,23 +103,38 @@ public class Triggers extends DataMasterController implements Initializable {
         if (MainApplication.getDB().getType().equals("postgresql")) {
             listid.getItems().clear();
             Connection con = MainApplication.getDB().getConexion();
-            // Suponiendo que ya tienes una conexión a la base de datos establecida
+
             String query = "SELECT tgname FROM pg_trigger WHERE tgrelid = '" + MainApplication.getTabla() + "'::regclass;";
             CallableStatement stmt = con.prepareCall(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String triggerName = rs.getString("tgname");
-                if (!rs.getString("tgname").contains("RI_ConstraintTrigger")) {
+                int index = triggerName.indexOf("trigger_");
+                if (index != -1) {
+                    triggerName = triggerName.substring(index + 8);
+                }
+                if (!triggerName.contains("RI_ConstraintTrigger")) {
                     listid.getItems().add(triggerName);
                 }
-
             }
+
 
             listid.setCellFactory(stringListView -> new ItemList());
             listid.setOnMouseClicked(event -> {
                 index = listid.getSelectionModel().getSelectedIndex();
             });
             listid.refresh();
+            listid.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2) {
+                    index = listid.getSelectionModel().getSelectedIndex();
+                    txtid.clear();
+                    try {
+                        visualizartriggeer();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
         } else {
             listid.getItems().clear();
             Connection con = MainApplication.getDB().getConexion();
@@ -136,10 +151,11 @@ public class Triggers extends DataMasterController implements Initializable {
             }
 
             listid.setCellFactory(stringListView -> new ItemList());
+
+            listid.refresh();
             listid.setOnMouseClicked(event -> {
                 index = listid.getSelectionModel().getSelectedIndex();
             });
-            listid.refresh();
             listid.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) {
                     index = listid.getSelectionModel().getSelectedIndex();
@@ -295,14 +311,23 @@ public class Triggers extends DataMasterController implements Initializable {
         Connection con = MainApplication.getDB().getConexion();
         Statement st = con.createStatement();
         if (MainApplication.getDB().getType().equals("postgresql")) {
-            String sql = "SELECT pg_get_triggerdef(" + listid.getItems().get(index).toString() + ") FROM information_schema.triggers WHERE event_object_table = '" + MainApplication.getTabla() + "';";
-            ResultSet sr = st.executeQuery(sql);
+            String functionName = listid.getItems().get(index).toString(); // Reemplaza con el nombre de la función que deseas obtener
+
+            String sql = "SELECT pg_get_functiondef(pg_proc.oid) " +
+                    "FROM pg_proc " +
+                    "JOIN pg_namespace ON pg_proc.pronamespace = pg_namespace.oid " +
+                    "WHERE pg_proc.proname = '" + functionName + "' AND pg_namespace.nspname = 'public';";
+
+            ResultSet rs = st.executeQuery(sql);
             StringBuilder sb = new StringBuilder();
-            while (sr.next()) {
-                sb.append(sr.getString(1));
+            while (rs.next()) {
+                String functionDef = rs.getString(1);
+                sb.append(functionDef);
             }
             txtid.setText(sb.toString());
-        } else {
+        }
+
+        else {
             String triggerName = listid.getItems().get(index).toString();
             String tableName = MainApplication.getTabla();
 

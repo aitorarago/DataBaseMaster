@@ -639,7 +639,8 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         if(MainApplication.getDB().getType().equals("mysql")){
             for (int i = 0; i < datos.length; i++) {
                 sql.append(datos[i][0]).append(" ");
-            if(datos[i][1].equals("FLOAT"))sql.append("DECIMAL");
+            if(datos[i][1].equals("FLOAT"))sql.append("DECIMAL(8,2)");
+            else if(datos[i][1].equals("VARCHAR"))sql.append("VARCHAR(40)");
             else {sql.append(datos[i][1]);}
                 if (i != datos.length - 1) {
                     sql.append(",");
@@ -719,7 +720,10 @@ public class VisualizarDB extends DataMasterController implements Initializable 
                 System.out.println(ps.toString());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           Alert alert = new Alert(Alert.AlertType.ERROR);
+           alert.setTitle("Error");
+           alert.setContentText("error :"+e);
+           alert.show();
         }
         tableviewid.getColumns().clear();
         setTablasDB();
