@@ -208,28 +208,26 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         data = FXCollections.observableArrayList();
         try {
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
-                //We are using non property style for making dynamic table
                 final int j = i;
                 TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
                 col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
                     public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                        return new SimpleStringProperty(param.getValue().get(j).toString());
+                        Object value = param.getValue().get(j);
+                        String stringValue = (value != null) ? value.toString() : "";
+                        return new SimpleStringProperty(stringValue);
                     }
                 });
 
                 tableviewid.getColumns().addAll(col);
             }
             while (rs.next()) {
-                //Iterate Row
                 ObservableList<String> row = FXCollections.observableArrayList();
                 for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-                    //Iterate Column
-                    row.add(rs.getString(i));
+                    String value = rs.getString(i);
+                    row.add(value != null ? value : "");
                 }
                 data.add(row);
-
             }
-
             //FINALLY ADDED TO TableView
             tableviewid.setItems(data);
         } catch (Exception e) {
@@ -479,8 +477,9 @@ public class VisualizarDB extends DataMasterController implements Initializable 
                 TableColumn firstColumn = (TableColumn) tableviewid.getColumns().get(1);
                 String columnName = firstColumn.getText();
 
+                String value = row[1].trim().replace("]", ""); // Eliminar el carácter "]"
 
-                String sql = "DELETE FROM " + MainApplication.getTabla()+ " WHERE "+ columnName+"='"+row[1].trim()+"';";
+                String sql = "DELETE FROM " + MainApplication.getTabla() + " WHERE " + columnName + "='" + value + "';";
                 try {
                     System.out.println(sql);
                     st.executeUpdate(sql);
@@ -492,7 +491,7 @@ public class VisualizarDB extends DataMasterController implements Initializable 
                 dialog.close();
             });
 
-            cancelButton.setOnAction(e -> {
+                cancelButton.setOnAction(e -> {
                 dialog.close();
             });
 
@@ -523,8 +522,16 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         PreparedStatement ps = con.prepareStatement(sql);
         switch (datatype) {
             case "integer" -> {
-                ps.setInt(1, Integer.parseInt(nvalor));
-                ps.setInt(2, Integer.parseInt(valor2));
+                if (nvalor.isEmpty()) {
+                    ps.setNull(1, Types.INTEGER);
+                } else {
+                    ps.setInt(1, Integer.parseInt(nvalor));
+                }
+                if (valor2.isEmpty()) {
+                    ps.setNull(2, Types.INTEGER);
+                } else {
+                    ps.setInt(2, Integer.parseInt(valor2));
+                }
                 ps.executeUpdate();
             }
             case "float" -> {
@@ -550,7 +557,6 @@ public class VisualizarDB extends DataMasterController implements Initializable 
             default -> {
                 ps.setString(1, nvalor);
                 ps.setString(2, valor2);
-                System.out.println(ps.toString());
                 ps.executeUpdate();
             }
         }
@@ -781,8 +787,7 @@ public class VisualizarDB extends DataMasterController implements Initializable 
     /**
      * Función que permite editar el nombre de una columna y añadir o eliminar columnas
       */
-    public void editartabla()  {
-
+    public void editartabla() {
         // Obtener la información de la tabla
         List<String[]> infotabla = null;
         try {
@@ -798,56 +803,98 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(10);
         grid.setHgap(10);
-
-
-// Agregar componentes a la ventana de edición de tabla
+        List<CheckBox> checkBoxes = new ArrayList<>();
+        // Agregar componentes a la ventana de edición de tabla
+        List<TextField> nombreColumnaTextFields = new ArrayList<>();
+        List<ChoiceBox<String>> tipoDatoChoiceBoxes = new ArrayList<>();
         for (int i = 0; i < infotabla.size(); i++) {
-            Label columnaLabell = new Label("Columna " + (i+1));
-            grid.add(columnaLabell, 0, i);
+            Label columnaLabel = new Label("Columna " + (i + 1));
+            grid.add(columnaLabel, 0, i);
             TextField nombreColumnaTextField = new TextField(infotabla.get(i)[0]);
+            ChoiceBox<String> tipoDatoChoiceBox = new ChoiceBox<>();
+            tipoDatoChoiceBox.getItems().addAll("INTEGER", "BOOLEAN", "VARCHAR", "FLOAT");
             grid.add(nombreColumnaTextField, 1, i);
+            CheckBox eliminarCheckBox = new CheckBox("Eliminar");
+            checkBoxes.add(eliminarCheckBox);
+            grid.add(eliminarCheckBox, 3, i);
+            grid.add(tipoDatoChoiceBox, 2, i);
+            nombreColumnaTextFields.add(nombreColumnaTextField);
+            tipoDatoChoiceBoxes.add(tipoDatoChoiceBox);
         }
+
+        // Agregar botones de añadir columna, eliminar columna, guardar y cancelar
         Button agregarColumnaButton = new Button("Añadir columna");
         Button eliminarColumnaButton = new Button("Eliminar columna");
-        grid.add(agregarColumnaButton, 0, infotabla.size() + 1);
-        grid.add(eliminarColumnaButton, 1, infotabla.size() + 1);
-
-        agregarColumnaButton.setOnAction(actionEvent -> {
-
-        });
-
-        eliminarColumnaButton.setOnAction(actionEvent -> {
-
-        });
-
-        // Agregar botones de guardar y cancelar
         Button guardarButton = new Button("Guardar cambios");
         Button cancelarButton = new Button("Cancelar");
         HBox botonesHBox = new HBox();
         botonesHBox.setAlignment(Pos.CENTER_RIGHT);
         botonesHBox.setSpacing(10);
-        botonesHBox.getChildren().addAll(guardarButton, cancelarButton);
-        grid.add(botonesHBox, 2, infotabla.size() + 1);
+        botonesHBox.getChildren().addAll(agregarColumnaButton, eliminarColumnaButton, guardarButton, cancelarButton);
+        grid.add(botonesHBox, 0, infotabla.size());
+
+        // Configurar acción del botón de añadir columna
+        agregarColumnaButton.setOnAction(actionEvent -> {
+            int nuevaColumnaIndex = nombreColumnaTextFields.size();
+            Label nuevaColumnaLabel = new Label("Columna " + (nuevaColumnaIndex + 1));
+            TextField nuevaColumnaTextField = new TextField();
+            ChoiceBox<String> nuevoTipoDatoChoiceBox = new ChoiceBox<>();
+            nuevoTipoDatoChoiceBox.getItems().addAll("INTEGER", "BOOLEAN", "VARCHAR", "FLOAT");
+            grid.add(nuevaColumnaLabel, 0, nuevaColumnaIndex);
+            grid.add(nuevaColumnaTextField, 1, nuevaColumnaIndex);
+            grid.add(nuevoTipoDatoChoiceBox, 2, nuevaColumnaIndex);
+            nombreColumnaTextFields.add(nuevaColumnaTextField);
+            tipoDatoChoiceBoxes.add(nuevoTipoDatoChoiceBox);
+        });
+
+        // Configurar acción del botón de eliminar columna
+        List<String[]> finalInfotabla1 = infotabla;
+        eliminarColumnaButton.setOnAction(actionEvent -> {
+            List<CheckBox> checkBoxesSeleccionados = checkBoxes.stream()
+                    .filter(CheckBox::isSelected)
+                    .collect(Collectors.toList());
+
+            for (CheckBox checkBox : checkBoxesSeleccionados) {
+                int columnaIndex = GridPane.getRowIndex(checkBox);
+
+                // Obtener información de la columna seleccionada
+                String[] columnaSeleccionada = finalInfotabla1.get(columnaIndex);
+
+                // Eliminar la columna de la base de datos
+                try {
+                    Connection con = MainApplication.getDB().getConexion();
+                    String sql = "ALTER TABLE " + MainApplication.getTabla() + " DROP COLUMN " +  columnaSeleccionada[0];
+                    PreparedStatement ps = con.prepareStatement(sql);
+                    ps.executeUpdate();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Eliminar los componentes asociados a la columna del GridPane
+                grid.getChildren().removeIf(node -> GridPane.getRowIndex(node) == columnaIndex);
+            }
+        });
+
 
         // Configurar acción del botón de guardar
-        List<String[]> finalInfotabla = infotabla.stream().collect(Collectors.toList());
-        List<String[]> finalInfotabla1 = infotabla;
+        List<String[]> finalInfotabla = infotabla;
         guardarButton.setOnAction(e -> {
             // Recorrer los componentes de la ventana de edición de tabla para obtener los nuevos valores de nombres de columnas y tipos de datos
             List<String[]> nuevasColumnas = new ArrayList<>();
-            for (int i = 0; i < finalInfotabla.size(); i++) {
+            for (int i = 0; i < nombreColumnaTextFields.size(); i++) {
                 String[] columna = new String[2];
-                columna[0] = ((TextField)grid.getChildren().get(i * 2 + 1)).getText(); // Obtener el texto del campo de texto
-                columna[1] = finalInfotabla.get(i)[1]; // Conservar el tipo de datos original
+                columna[0] = nombreColumnaTextFields.get(i).getText();
+                columna[1] = tipoDatoChoiceBoxes.get(i).getValue();
                 nuevasColumnas.add(columna);
             }
 
             // Actualizar la estructura de la tabla en la base de datos
             try {
-                modificarTabla(MainApplication.getTabla(), nuevasColumnas, finalInfotabla1);
+                modificarTabla(MainApplication.getTabla(), nuevasColumnas, finalInfotabla);
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
+
             // Cerrar la ventana de edición de tabla
             stage.close();
         });
@@ -874,15 +921,36 @@ public class VisualizarDB extends DataMasterController implements Initializable 
     private void modificarTabla(String tabla, List<String[]> nuevasColumnas,List<String[]> anteriores) throws SQLException{
         Connection con = MainApplication.getDB().getConexion();
         Statement st = con.createStatement();
-        for (int i = 0; i < nuevasColumnas.size(); i++) {
-
+        if(MainApplication.getDB().getType().equals("postgresql")){
+                for (int i = 0; i < nuevasColumnas.size(); i++) {
+            if(i<anteriores.size()){
             if(nuevasColumnas.get(i)[0].equals(anteriores.get(i)[0])){
-                continue;
             }
             else{
                 String sql ="ALTER TABLE "+tabla+" RENAME COLUMN "+anteriores.get(i)[0]+" TO "+nuevasColumnas.get(i)[0];
                 st.executeUpdate(sql);
             }
+
+            }
+            else {
+                String sql ="ALTER TABLE "+tabla+" ADD "+nuevasColumnas.get(i)[0]+" "+nuevasColumnas.get(i)[1];
+                st.executeUpdate(sql);
+            }
+        }
+        }
+        else {
+                for (int i = 0; i < nuevasColumnas.size(); i++) {
+                    if (i < anteriores.size()) {
+                        if (nuevasColumnas.get(i)[0].equals(anteriores.get(i)[0])) {
+                        } else {
+                            String sql = "ALTER TABLE " + tabla + " RENAME COLUMN `" + anteriores.get(i)[0] + "` TO `" + nuevasColumnas.get(i)[0] + "`";
+                            st.executeUpdate(sql);
+                        }
+                    } else {
+                        String sql = "ALTER TABLE " + tabla + " ADD `" + nuevasColumnas.get(i)[0] + "` " + nuevasColumnas.get(i)[1];
+                        st.executeUpdate(sql);
+                    }
+                }
 
         }
         tableviewid.getColumns().clear();
@@ -1044,7 +1112,7 @@ public class VisualizarDB extends DataMasterController implements Initializable 
                 rowBuilder.append(value).append("\t");
             }
 
-            terminalOutput.appendText(rowBuilder.toString() + "\n");
+            terminalOutput.appendText(rowBuilder + "\n");
         }
     }
 }
