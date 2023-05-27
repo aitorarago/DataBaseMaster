@@ -65,6 +65,10 @@ public class VisualizarDB extends DataMasterController implements Initializable 
     private String itemselected;
     private ObservableList<ObservableList> data;
 
+    /**
+     * Función que actualiza la lista de las tablas
+     * @throws SQLException
+     */
     public void refresh() throws SQLException {
         ObservableList<String> basedeDatosObservableList = tablasDB.getItems();
         List<String> list = bd.getTablas();
@@ -83,6 +87,11 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         });
     }
 
+    /**
+     * Función implementada por la interface Initializable, lo que hace que se ejecute este metodo nadamas empezar
+     * @param url no lo uso
+     * @param resourceBundle no lo uso
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         bd = MainApplication.getDB();
@@ -101,6 +110,9 @@ public class VisualizarDB extends DataMasterController implements Initializable 
 
     }
 
+    /**
+     * Función que añade información a los iconos
+     */
     private void anadirToastImagenes() {
         //eliminar tabla
         String bt = "Eliminar Tabla";
@@ -152,7 +164,10 @@ public class VisualizarDB extends DataMasterController implements Initializable 
 
     }
 
-
+    /**
+     * Función que al clicar muestra el contenido de la tabla seleccionada
+     * @param actionEvent
+     */
     public void buscartablas(MouseEvent actionEvent) {
         // Supongamos que tienes una ListView<String> llamada myListView
 
@@ -173,6 +188,9 @@ public class VisualizarDB extends DataMasterController implements Initializable 
 
     }
 
+    /**
+     * Función que muestra el contenido de la tabla en una tableview, y añade la logica de la edición (luego llama a actualizarValor))
+     */
     public void setTablasDB() {
         Connection connection = MainApplication.getDB().getConexion();
         String nombreTabla = MainApplication.getTabla();
@@ -269,7 +287,10 @@ public class VisualizarDB extends DataMasterController implements Initializable 
 
     }
 
-    public void eliminartabla(MouseEvent actionEvent) {
+    /**
+     * Función que permite la eliminación de una tabla
+     */
+    public void eliminartabla() {
         if (itemselected == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Warning");
@@ -330,6 +351,10 @@ public class VisualizarDB extends DataMasterController implements Initializable 
 
     }
 
+    /**
+     * Función que permite al usuario añadir nuevas filas en una tabla (llama al metodo insertarfilas)
+     * @throws SQLException Excepción del lenguaje SQL
+     */
     public void addNewRow() throws SQLException {
         Stage dialog = new Stage();
         dialog.setTitle("Insertar nuevos valores en la tabla");
@@ -418,7 +443,11 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         dialog.show();
 
     }
-    public void deleterow(MouseEvent actionEvent) {
+
+    /**
+     * Función que permite eliminar filas en una tabla
+     */
+    public void deleterow() {
         if (tableviewid.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Warning");
@@ -480,6 +509,13 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         }
     }
 
+    /**
+     * Función que realiza la logica de editar un elemento en una tabla
+     * @param nvalor valor antiguo
+     * @param columnname nombre de la columna
+     * @param valor2 valor nuevo
+     * @throws SQLException Excepción del lenguaje SQL
+     */
     public void actualizarValor(String nvalor, String columnname,String valor2)throws SQLException{
         Connection con = MainApplication.getDB().getConexion();
         String datatype = MainApplication.getDB().getTypeColumn(columnname);
@@ -522,7 +558,10 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         setTablasDB();
     }
 
-    public void createTable(MouseEvent actionEvent) {
+    /**
+     * Función que crea una escena en la qual el usuario puede establecer la logica de la tabla a creaar(luego llama a crearTabla)
+     */
+    public void createTable() {
         System.out.println("newtable");
         // Crear el diálogo para la creación de la tabla
         Stage dialog = new Stage();
@@ -633,7 +672,12 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         dialog.show();
     }
 
-
+    /**
+     * Función que realiza la logica de crear la tabla
+     * @param datos array bidimensional que contiene los nombres de la tabla nueva y los tipos de datos
+     * @param tablename nombre de la tabla nueva
+     * @throws SQLException Excepción del lenguaje SQL
+     */
     private void crearTabla(String[][] datos,String tablename) throws SQLException{
         StringBuilder sql = new StringBuilder("create table " + tablename + "(");
         if(MainApplication.getDB().getType().equals("mysql")){
@@ -674,6 +718,11 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         System.out.println("fin");
     }
 
+    /**
+     * Funciñon que realiza la logica de la inserción de datos en una tabla
+     * @param data array bidimensional que contiene los nombres de la tabla nueva y los tipos de datos
+     * @param infotabla lista de array de strings que contiene la información de la tabla
+     */
     private void insertarFilas(String[][] data, List<String[]> infotabla) {
         Connection con = MainApplication.getDB().getConexion();
         String tabla = MainApplication.getTabla();
@@ -729,7 +778,9 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         setTablasDB();
     }
 
-
+    /**
+     * Función que permite editar el nombre de una columna y añadir o eliminar columnas
+      */
     public void editartabla()  {
 
         // Obtener la información de la tabla
@@ -813,6 +864,13 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         stage.show();
     }
 
+    /**
+     * Función que realiza la logica de editar la tabla
+     * @param tabla nombre de la tabla
+     * @param nuevasColumnas columnas modificadas
+     * @param anteriores columnas anteriores
+     * @throws SQLException array bidimensional que contiene los nombres de la tabla nueva y los tipos de datos
+     */
     private void modificarTabla(String tabla, List<String[]> nuevasColumnas,List<String[]> anteriores) throws SQLException{
         Connection con = MainApplication.getDB().getConexion();
         Statement st = con.createStatement();
@@ -831,7 +889,10 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         setTablasDB();
     }
 
-    public void consultar(MouseEvent mouseEvent) {
+    /**
+     * Función que permite al usuario realizar consultas
+     */
+    public void consultar() {
         Stage dialog = new Stage();
         dialog.setTitle("Consultar");
 
@@ -863,7 +924,12 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         dialog.show();
     }
 
-
+    /**
+     * Función que realiza la logica de la ejecución de la consulta
+     * @param consulta consulta
+     * @param dialog dialogo donde interactua el usuario y la app
+     * @param root VerticalBox que muestra la escena
+     */
     private void ejecutarConsulta(String consulta, Stage dialog, VBox root) {
 
       try {
@@ -904,6 +970,9 @@ public class VisualizarDB extends DataMasterController implements Initializable 
       }
     }
 
+    /**
+     * Función que permite al usuario ejecutar comandos directamente (llama a executeCommand)
+     */
     public void terminal(){
 
         Connection connection = null;
@@ -932,6 +1001,12 @@ public class VisualizarDB extends DataMasterController implements Initializable 
             stage.show();
     }
 
+    /**
+     * Función que realiza la logica de la ejecución del comando
+     * @param connection connexión a la BD
+     * @param terminalOutput Area de texto donde se añadirá la salida del comando
+     * @param commandInput Area de texto donde el usuario añade los comandos
+     */
     private void executeCommand(Connection connection, TextArea terminalOutput, TextField commandInput) {
         String command = commandInput.getText().trim();
 
@@ -952,6 +1027,12 @@ public class VisualizarDB extends DataMasterController implements Initializable 
         commandInput.clear();
     }
 
+    /**
+     * Función que realiza la logica de mostrar la salida del comando
+     * @param resultSet resultado del comando
+     * @param terminalOutput Area de texto donde se mostrará
+     * @throws SQLException Excepción del lenguaje SQL
+     */
     private void printResultSet(ResultSet resultSet, TextArea terminalOutput) throws SQLException {
         int columnCount = resultSet.getMetaData().getColumnCount();
 

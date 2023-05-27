@@ -42,7 +42,11 @@ public class Funciones extends DataMasterController implements Initializable {
     private Button saveid;
     int index = 0;
 
-
+    /**
+     * Función implementada por la interface Initializable, lo que hace que se ejecute este metodo nadamas empezar
+     * @param url no lo uso
+     * @param resourceBundle no lo uso
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cargarBD();
@@ -51,6 +55,9 @@ public class Funciones extends DataMasterController implements Initializable {
 
     }
 
+    /**
+     * Función que añade información a los iconos
+     */
     private void anadirToastIconos() {
         //añadir funcion
         String at = "Crear función";
@@ -84,6 +91,9 @@ public class Funciones extends DataMasterController implements Initializable {
         Tooltip.install(startid, tooltipf);
     }
 
+    /**
+     * Función para añadir las BD a SplitMenuButton
+     */
     private void cargarBD() {
         bdid.setText("Selecciona una opción");
         MainApplication.getBduser().forEach(basedeDatos -> bdid.getItems().add(new MenuItem(basedeDatos.toString())));
@@ -98,7 +108,10 @@ public class Funciones extends DataMasterController implements Initializable {
         }));
     }
 
-
+    /**
+     * Función para obtener las funciones asignadas a una BD
+     * @throws SQLException excepción del lenguaje SQL
+     */
     private void visualizarfunctions() throws SQLException {
         functionsis.getItems().clear();
         Connection con = MainApplication.getDB().getConexion();
@@ -141,6 +154,9 @@ public class Funciones extends DataMasterController implements Initializable {
         });
     }
 
+    /**
+     * Función para crear una nueva función
+     */
     public void addfunction() {
         searchfunctionid.clear();
         searchfunctionid.setEditable(true);
@@ -168,6 +184,10 @@ public class Funciones extends DataMasterController implements Initializable {
         });
     }
 
+    /**
+     * Función para eliminar una función
+     * @throws SQLException excepción del lenguaje SQL
+     */
     public void dropfunction() throws SQLException {
         searchfunctionid.setEditable(false);
         saveid.setDisable(true);
@@ -201,6 +221,10 @@ public class Funciones extends DataMasterController implements Initializable {
         });
     }
 
+    /**
+     * Función para poder editar el codigo de una función
+     * @throws SQLException excepción del lenguaje SQL
+     */
     public void editfunction() throws SQLException {
         index = functionsis.getSelectionModel().getSelectedIndex();
         String codigo="";
@@ -233,6 +257,10 @@ public class Funciones extends DataMasterController implements Initializable {
         });
     }
 
+    /**
+     * Función para poder visualizar el codigo de una función
+     * @throws SQLException excepción del lenguaje SQL
+     */
     public void searchfunction() throws SQLException {
         searchfunctionid.setEditable(false);
         saveid.setDisable(true);
@@ -273,7 +301,10 @@ public class Funciones extends DataMasterController implements Initializable {
         }
     }
 
-
+    /**
+     * Función que permite ejecutar una función
+     * @throws SQLException excepción del lenguaje SQL
+     */
     public void runfunction() throws SQLException{
         if(MainApplication.getDB().getType().equals("mysql")){
             searchfunctionid.setEditable(false);

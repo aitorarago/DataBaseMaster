@@ -39,8 +39,11 @@ public class ImportarBD extends DataMasterController implements Initializable {
     private int item;
     private boolean ee;
 
-    //logica de subir el fitchero para importarlo
-    public void importarfichero(ActionEvent actionEvent) {
+
+    /**
+     *logica de subir el fitchero para importarlo
+     */
+    public void importarfichero() {
             // Crear un objeto FileChooser
             FileChooser fileChooser = new FileChooser();
 
@@ -59,7 +62,11 @@ public class ImportarBD extends DataMasterController implements Initializable {
             }
     }
 
-
+    /**
+     * Función implementada por la interface Initializable, lo que hace que se ejecute este metodo nadamas empezar
+     * @param url no lo uso
+     * @param resourceBundle no lo uso
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         groupid.setVisible(false);
@@ -67,6 +74,10 @@ public class ImportarBD extends DataMasterController implements Initializable {
         itembdid.setVisible(false);
     }
 
+    /**
+     * Función para importar una BD desde un fichero
+     * @param path ruta del fichero
+     */
     public void importarFicheroBD(String path) {
         try {
             MainApplication.getDB().importBD(path);
@@ -75,8 +86,9 @@ public class ImportarBD extends DataMasterController implements Initializable {
         }
     }
 
-
-    //logica de los radiobuttons
+    /**
+     * logica de los radiobuttons
+     */
     public void logicaradiobuttons(){
         ToggleGroup group = new ToggleGroup();
         bdid.setToggleGroup(group);
@@ -113,7 +125,9 @@ public class ImportarBD extends DataMasterController implements Initializable {
         });
     }
 
-    //rellena los items del splimenubutton bases de datos
+    /**
+     * rellena los items del splimenubutton bases de datos
+     */
 
     public void rellenarItemBD() {
         itembdid.setText("Selecciona una opción");
@@ -125,8 +139,9 @@ public class ImportarBD extends DataMasterController implements Initializable {
         }));
     }
 
-
-    //rellena los items del splimenubutton tablas
+    /**
+     * rellena los items del splimenubutton tablas
+     */
     public void rellenarItemTabla(){
         if(item==1){
         }
@@ -148,7 +163,13 @@ public class ImportarBD extends DataMasterController implements Initializable {
         }
     }
 
-    //crea la tabla y añade los valores a esta
+    /**
+     * Función que crea una tabla y la rellena de valores
+     * @param tabla nombre de la tabla
+     * @param path ruta del fichero de importación
+     * @throws SQLException excepción de lenguaje SQL
+     * @throws IOException excepción al leer un fichero
+     */
     private void importarficheroCTabla(String tabla,String path) throws SQLException, IOException {
         if(MainApplication.getDB().getType().equals("mysql")){
             Connection con = MainApplication.getDB().getConexion();
@@ -311,7 +332,10 @@ public class ImportarBD extends DataMasterController implements Initializable {
         }
     }
 
-    //al pulsar el boton se iniciara el proceso de importacion dependiendo del radiobutton elegido
+    /**
+     * Función que al pulsar el boton se iniciara el proceso de importacion dependiendo del radiobutton elegido
+     * @throws IOException
+     */
     public void realizaraccionimportar() throws IOException {
         Inicio inicio = new Inicio();
         if(item==1){
@@ -340,7 +364,11 @@ public class ImportarBD extends DataMasterController implements Initializable {
         }
     }
 
-    //crea dialogo para que el usuario ponga nombre a la tabla nueva que creaara
+
+    /**
+     * Función que crea dialogo para que el usuario ponga nombre a la tabla nueva que creaara
+     * @return nombre de la tabla
+     */
     public String crearDialogoNombreTabla() {
         TextInputDialog dialogo = new TextInputDialog();
         dialogo.setTitle("Crear nueva tabla");
@@ -356,8 +384,11 @@ public class ImportarBD extends DataMasterController implements Initializable {
         }
     }
 
-
-    //inserta valores en una tabla existente
+    /**
+     * Función que inserta valores en una tabla existente
+     * @param tabla nombre de la tabla
+     * @param path ruta del fichero
+     */
     private void insertaritems(String tabla, String path) {
         Connection c = MainApplication.getDB().getConexion();
         List<String[]> columnas;

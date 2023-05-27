@@ -10,22 +10,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -44,6 +37,9 @@ public class Inicio extends DataMasterController implements Initializable {
     private AnchorPane scenatot = new AnchorPane();
     private int selectedItem;
 
+    /**
+     * Función que rellena la lista de BD
+     */
     public void refresh(){
        listabdid.getItems().clear();
         ObservableList<String> basedeDatosObservableList = listabdid.getItems();
@@ -83,6 +79,11 @@ public class Inicio extends DataMasterController implements Initializable {
 
     }
 
+    /**
+     * Función implementada por la interface Initializable, lo que hace que se ejecute este metodo nadamas empezar
+     * @param url no lo uso
+     * @param resourceBundle no lo uso
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -106,6 +107,9 @@ public class Inicio extends DataMasterController implements Initializable {
 
     }
 
+    /**
+     * Función que añade información a los iconos
+     */
     private void anadirToastIconos() {
         //eliminar tabla
         String bt = "Eliminar Base de Datos";
@@ -127,6 +131,9 @@ public class Inicio extends DataMasterController implements Initializable {
         Tooltip.install(show, tooltip3);
     }
 
+    /**
+     * Función que navega a otra escena
+     */
     public void buscartablas() {
        if(selectedItem==-1){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -147,7 +154,10 @@ public class Inicio extends DataMasterController implements Initializable {
 
     }
 
-    public void eliminarBD(MouseEvent mouseEvent) {
+    /**
+     * Eliminar una connexion de la lista
+     */
+    public void eliminarBD() {
         if(selectedItem==-1){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Warning");
@@ -192,94 +202,12 @@ public class Inicio extends DataMasterController implements Initializable {
         }
     }
 
-
-    public void addBD(MouseEvent mouseEvent) throws IOException{
+    /**
+     * Cambia de escena
+     * @throws IOException excepcion al leer un fichero
+     */
+    public void addBD() throws IOException{
         MainApplication.cambiarEscena("FXML/crearconectorBD.fxml");
-    }
-
-
-    //Editar nombre BD, no funciona por tema permisos, desde un connector no se puede realizar.
-    public void editBD(MouseEvent mouseEvent) {
-        BasedeDatos bdselected = MainApplication.getBduser().get(selectedItem);
-        MainApplication.setDB(bdselected);
-        if(selectedItem==-1){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Warning");
-            alert.setContentText("""
-                        no se ha seleccionado ninguna
-                        base de datos, por favor seleccione
-                        una para poder continuar.""");
-            alert.show();
-        }
-        else {
-            TextInputDialog dialogo = new TextInputDialog();
-            dialogo.setTitle("Editar Base de Datos");
-            dialogo.setHeaderText("Introduzca el nuevo nombre");
-            dialogo.setContentText("Nombre:");
-
-            Optional<String> resultado = dialogo.showAndWait();
-            String nuevonom = "";
-            if (resultado.isPresent()) {
-                nuevonom = resultado.get();
-            } else {
-                dialogo.close();
-            }
-            cambionombre(nuevonom);
-        }
-    }
-
-    private void cambionombre(String nuevonom) {
-        // Nombre de la base de datos original y nueva
-        BasedeDatos nombreBaseDatosOriginal = MainApplication.getDB();
-        String nombreBaseDatosNueva = nuevonom;
-        ExportarBD exportarBD = new ExportarBD();
-        exportarBD.addruta();
-        try (Connection connection = MainApplication.getDB().getConexion();
-             Statement statement = connection.createStatement()) {
-            try {
-                exportarBD.exportBD();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            String sqlCrear = "CREATE DATABASE " + nombreBaseDatosNueva;
-            statement.executeUpdate(sqlCrear);
-
-            MainApplication.deleteBD(nombreBaseDatosOriginal);
-
-            BasedeDatos bd = new BasedeDatos(MainApplication.getDB().getIp(), MainApplication.getDB().getPuerto(), nombreBaseDatosNueva, MainApplication.getDB().getUsername(), MainApplication.getDB().getPasswrd(), MainApplication.getDB().getType());
-            MainApplication.addBD(bd);
-            MainApplication.deleteBD(MainApplication.getDB());
-            MainApplication.setDB(bd);
-        } catch (SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("No dispones de permisos suficientes para realizar esta acción");
-            alert.showAndWait();
-            return;
-        }
-
-        // Restaurar la base de datos desde la copia de seguridad
-        try (Connection connection = MainApplication.getDB().getConexion();
-             Statement statement = connection.createStatement()) {
-            // Lee el archivo SQL de la copia de seguridad
-            FileChooser fileChooser= new FileChooser();
-            String sqlRestaurar = new String(Files.readAllBytes(fileChooser.getInitialDirectory().toPath()));
-
-            // Ejecuta los comandos SQL de restauración
-            statement.executeUpdate(sqlRestaurar);
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Cambio de nombre exitoso");
-            alert.setContentText("La base de datos se ha cambiado de nombre correctamente");
-            alert.showAndWait();
-        } catch (SQLException | IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Ha ocurrido un error al restaurar la base de datos");
-            alert.showAndWait();
-            e.printStackTrace();
-        }
     }
 
 }

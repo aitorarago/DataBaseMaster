@@ -43,7 +43,11 @@ public class ExportarBD extends DataMasterController implements Initializable {
     private boolean ee;
     private String path;
 
-
+    /**
+     * Función implementada por la interface Initializable, lo que hace que se ejecute este metodo nadamas empezar
+     * @param url no lo uso
+     * @param resourceBundle no lo uso
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         selectbd.setVisible(false);
@@ -51,6 +55,9 @@ public class ExportarBD extends DataMasterController implements Initializable {
         logicaCheckbox();
     }
 
+    /**
+     * Establece la logica de los RadioButtons
+     */
     public void logicaCheckbox(){
         ToggleGroup group = new ToggleGroup();
         bdid.setToggleGroup(group);
@@ -80,6 +87,9 @@ public class ExportarBD extends DataMasterController implements Initializable {
         });
     }
 
+    /**
+     * Rellena SplitMenuButton añadiendole las BD
+     */
     private void rellenarItemBD() {
         selectbd.setVisible(true);
         selectbd.setText("Selecciona una opción");
@@ -94,6 +104,9 @@ public class ExportarBD extends DataMasterController implements Initializable {
         }));
     }
 
+    /**
+     *  Rellena SplitMenuButton añadiendole las Tablas de la BD
+     */
     private void rellenarItemTabla() {
         selecttb.setVisible(true);
         selecttb.setText("Selecciona una opción");
@@ -111,7 +124,11 @@ public class ExportarBD extends DataMasterController implements Initializable {
         }
     }
 
-
+    /**
+     * Función que realiza la logica de las exportaciones
+     * @throws SQLException excepción del lenguaje SQL
+     * @throws IOException excepción al leer un fichero
+     */
     public void exportBD() throws SQLException, IOException {
         Connection con = MainApplication.getDB().getConexion();
         Statement st = con.createStatement();
@@ -165,6 +182,9 @@ public class ExportarBD extends DataMasterController implements Initializable {
         }
     }
 
+    /**
+     * Función que permite al usuario navegar por su Sistema para obtener una ruta
+     */
     public void addruta() {
         Stage st = new Stage();
         DirectoryChooser fileChooser = new DirectoryChooser();

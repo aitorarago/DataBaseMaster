@@ -48,7 +48,10 @@ public class CrearConectorBD extends DataMasterController implements Initializab
     private int camposllenos=0;
     boolean t = false;
 
-    public void save(ActionEvent actionEvent) {
+    /**
+     *Función que obtiene los campos de texto rellenados y crea la clase BD, añadiendola a la lista del Main
+     */
+    public void save() {
         camposllenos = (!ipid.getText().trim().isEmpty()) ? camposllenos + 1 : camposllenos;
         camposllenos = (!nombredb.getText().trim().isEmpty()) ? camposllenos + 1 : camposllenos;
         camposllenos = (!username.getText().trim().isEmpty()) ? camposllenos + 1 : camposllenos;
@@ -158,16 +161,29 @@ public class CrearConectorBD extends DataMasterController implements Initializab
             }
         }
 
-    public void cancelar(ActionEvent actionEvent) throws IOException {
+    /**
+     * Cambia la escena
+     * @throws IOException excepción al leer un fichero
+     */
+    public void cancelar() throws IOException {
         MainApplication.cambiarEscena("inicio.fxml");
     }
 
+    /**
+     * Función que verifica la conexion d a la BD
+     * @param connection es la conexion que se va a verificar
+     * @return devuelve si se ha establecido conexion o no
+     * @throws SQLException excepcion del lenguaje SQL
+     */
     public boolean verificarBD(Connection connection) throws SQLException {
         if(connection.isValid(500))return true;
         else return false;
     }
 
-    public void addBD(MouseEvent mouseEvent) throws SQLException{
+    /**
+     * Función que crea una base de datos y le da permisos al Usuario
+     */
+    public void addBD() {
         Stage st = new Stage();
         st.setTitle("Crear nueva DataBase");
 
@@ -258,6 +274,11 @@ public class CrearConectorBD extends DataMasterController implements Initializab
         st.show();
     }
 
+    /**
+     * Función implementada por la interface Initializable, lo que hace que se ejecute este metodo nadamas empezar
+     * @param url no lo uso
+     * @param resourceBundle no lo uso
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ToggleGroup toggleGroup = new ToggleGroup();

@@ -34,7 +34,11 @@ public class Triggers extends DataMasterController implements Initializable {
     @FXML
     private Button saveid;
     private int index;
-
+    /**
+     * Función implementada por la interface Initializable, lo que hace que se ejecute este metodo nadamas empezar
+     * @param url no lo uso
+     * @param resourceBundle no lo uso
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         cargarBD();
@@ -43,6 +47,9 @@ public class Triggers extends DataMasterController implements Initializable {
         index = listid.getSelectionModel().getSelectedIndex();
     }
 
+    /**
+     * Función que añade información a los iconos
+     */
     private void anadirToastIcono() {
         //añadir funcion
         String at = "Crear Disparador";
@@ -70,6 +77,9 @@ public class Triggers extends DataMasterController implements Initializable {
         Tooltip.install(showid, tooltipp);
     }
 
+    /**
+     * Función para cargar las BD en SplitMenuButton
+     */
     private void cargarBD() {
         bdid.setText("Selecciona una opción");
         MainApplication.getBduser().forEach(basedeDatos -> bdid.getItems().add(new MenuItem(basedeDatos.toString())));
@@ -80,6 +90,9 @@ public class Triggers extends DataMasterController implements Initializable {
         }));
     }
 
+    /**
+     * Función para visualizar las tablas en SplitMenuButton
+     */
     private void visualizartablas() {
         tbid.setVisible(true);
         tbid.setText("Selecciona una opción");
@@ -99,6 +112,10 @@ public class Triggers extends DataMasterController implements Initializable {
         }));
     }
 
+    /**
+     * Función que carga los triggers asociados a la tabla y los muestra
+     * @throws SQLException excepción de lenguaje SQL
+     */
     private void anadirListaTriggers() throws SQLException {
         if (MainApplication.getDB().getType().equals("postgresql")) {
             listid.getItems().clear();
@@ -171,6 +188,10 @@ public class Triggers extends DataMasterController implements Initializable {
 
     }
 
+    /**
+     * Función que elimina un trigger
+     * @throws SQLException excepción de lenguaje SQL
+     */
     public void deletetrigger() throws SQLException {
         if(MainApplication.getDB().getType().equals("postgresql")) {
             Connection con = MainApplication.getDB().getConexion();
@@ -189,7 +210,10 @@ public class Triggers extends DataMasterController implements Initializable {
         }
     }
 
-    public void addtrigger(MouseEvent mouseEvent) throws SQLException {
+    /**
+     * Función que crea un trigger
+     */
+    public void addtrigger()  {
         txtid.setEditable(true);
         saveid.setDisable(false);
         saveid.setVisible(true);
@@ -240,7 +264,11 @@ public class Triggers extends DataMasterController implements Initializable {
 
     }
 
-    public void editTrigger(MouseEvent mouseEvent) throws SQLException {
+    /**
+     * Función que permite editar un trigger
+     * @throws SQLException excepción de lenguaje SQL
+     */
+    public void editTrigger() throws SQLException {
         visualizartriggeer();
         txtid.setEditable(true);
         saveid.setDisable(false);
@@ -295,6 +323,11 @@ public class Triggers extends DataMasterController implements Initializable {
         }
     }
 
+    /**
+     * Funcion que permite eliminar un trigger asociado a un atabla
+     * @param triggerName
+     * @throws SQLException excepción de lenguaje SQL
+     */
     private void deletetrigger(String triggerName) throws SQLException{
         Connection con = MainApplication.getDB().getConexion();
         Statement st = con.createStatement();
@@ -303,6 +336,10 @@ public class Triggers extends DataMasterController implements Initializable {
         anadirListaTriggers();
     }
 
+    /**
+     * Función que permite poder visualizar el codigo de un trigger
+     * @throws SQLException excepción de lenguaje SQL
+     */
     public void visualizartriggeer() throws SQLException {
         txtid.setEditable(false);
         saveid.setDisable(true);

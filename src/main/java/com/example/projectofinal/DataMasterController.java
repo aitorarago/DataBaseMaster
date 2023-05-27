@@ -19,50 +19,90 @@ public class DataMasterController {
     @FXML
     private ImageView infoo;
 
+    /**
+     * Cambia de una escena a otra
+     * @throws IOException excepción al leer un fichero
+     */
     public void crearBD()throws IOException{
         MainApplication.cambiarEscena("FXML/crearconectorBD.fxml");
     }
 
-    public void visualizarBD(ActionEvent actionEvent) throws IOException {
+    /**
+     * Cambia de una escena a otra, inicializa inicio y llama al metodo refresh
+     * @throws IOException excepción al leer un fichero
+     */
+
+    public void visualizarBD() throws IOException {
         MainApplication.cambiarEscena("FXML/inicio.fxml");
         Inicio inicio = new Inicio();
         inicio.refresh();
     }
 
-    public void importarBD(ActionEvent actionEvent) throws IOException{
+    /**
+     * Cambia de una escena a otra
+     * @throws IOException excepción al leer un fichero
+     */
+    public void importarBD() throws IOException{
         MainApplication.cambiarEscena("FXML/importarbd.fxml");
     }
 
-    public void exportarBD(ActionEvent actionEvent) throws IOException{
+    /**
+     * Cambia de una escena a otra
+     * @throws IOException excepción al leer un fichero
+     */
+    public void exportarBD() throws IOException{
         MainApplication.cambiarEscena("FXML/exportarbd.fxml");
     }
 
-    public void comenzarbtn(ActionEvent actionEvent) throws IOException {
-        visualizarBD(actionEvent);
+    /**
+     * Cambia de una escena a otra
+     * @throws IOException excepción al leer un fichero
+     */
+    public void comenzarbtn() throws IOException {
+        visualizarBD();
     }
 
-    public void salir(ActionEvent actionEvent) {
+    /**
+     * Cierra la app
+     */
+    public void salir() {
         MainApplication.getStage().close();
     }
 
-    public void funciones(ActionEvent actionEvent)throws IOException {
+    /**
+     * Cambia de una escena a otra
+     * @throws IOException excepción al leer un fichero
+     */
+    public void funciones()throws IOException {
         MainApplication.cambiarEscena("FXML/funciones.fxml");
     }
-
-    public void disparadores(ActionEvent actionEvent) throws IOException{
+    /**
+     * Cambia de una escena a otra
+     * @throws IOException excepción al leer un fichero
+     */
+    public void disparadores() throws IOException{
         MainApplication.cambiarEscena("FXML/triggers.fxml");
     }
-
-    public void moodstyle(ActionEvent actionEvent) throws IOException{
+    /**
+     * Cambia de una escena a otra
+     * @throws IOException excepción al leer un fichero
+     */
+    public void moodstyle() throws IOException{
         MainApplication.cambiarEscena("FXML/cambiarstylocss.fxml");
     }
-
-    public void importarCSS(ActionEvent actionEvent) throws IOException{
+    /**
+     * Cambia de una escena a otra
+     * @throws IOException excepción al leer un fichero
+     */
+    public void importarCSS() throws IOException{
         MainApplication.cambiarEscena("FXML/importarcss.fxml");
     }
-
+    /**
+     * Muestra información sobre las escenas donde nos encontramos
+     * @throws IOException excepción al leer un fichero
+     */
     @FXML
-    public void infoFXML(ActionEvent mouseEvent) {
+    public void infoFXML() {
         Stage dialog = new Stage();
         dialog.setTitle("Información");
         dialog.setHeight(300);
@@ -365,8 +405,11 @@ public class DataMasterController {
         dialog.setWidth(500);
         dialog.show();
     }
-
-    public void infoApp(ActionEvent actionEvent) {
+    /**
+     * Muestra información sobre los desarrolladores
+     * @throws IOException excepción al leer un fichero
+     */
+    public void infoApp() {
         Stage st = new Stage();
         st.setTitle("Sobre nosotros");
 

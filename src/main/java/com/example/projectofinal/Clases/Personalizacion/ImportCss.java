@@ -2,14 +2,10 @@ package com.example.projectofinal.Clases.Personalizacion;
 
 import com.example.projectofinal.DataMasterController;
 import com.example.projectofinal.MainApplication;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.*;
 
@@ -18,6 +14,9 @@ public class ImportCss extends DataMasterController{
     private Text ruta;
     private File archivoEstilo;
 
+    /**
+     * Función que permite importar un fichero con filechooser
+     */
     public void importarArchivo() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Importar archivo de estilo");
@@ -36,6 +35,9 @@ public class ImportCss extends DataMasterController{
         }
     }
 
+    /**
+     * Función que permite poder probar el estilo antes de guardarlo
+     */
     public void probarEstilo() {
         if (archivoEstilo != null) {
             String estilo = archivoEstilo.toURI().toString();
@@ -53,7 +55,9 @@ public class ImportCss extends DataMasterController{
         }
     }
 
-
+    /**
+     * Función que guarda el archivo css en el sistema(llama a copyFile)
+     */
     public void guardarEstilo() {
         if (archivoEstilo != null) {
             File directorioApp = new File(System.getProperty("user.dir"));
@@ -82,6 +86,13 @@ public class ImportCss extends DataMasterController{
         }
     }
 
+    /**
+     * Función que realiza la logica de almacenar en el sistema el fichero
+     * @param sourceFile Ruta al fichero
+     * @param destFile Ruta de destino del fichero
+     * @param name nombre
+     * @throws IOException Excepción al leer un fichero
+     */
     private void copyFile(File sourceFile, File destFile,String name) throws IOException {
         try (InputStream is = new FileInputStream(sourceFile);
              OutputStream os = new FileOutputStream(destFile)) {
@@ -94,7 +105,11 @@ public class ImportCss extends DataMasterController{
         }
     }
 
-    public void cancelar(ActionEvent actionEvent) throws IOException {
+    /**
+     * Función que permite cambiar la escena
+     * @throws IOException Excepción al leer un fichero
+     */
+    public void cancelar() throws IOException {
         MainApplication.cambiarEscena("cambiarstylocss.fxml");
     }
 }

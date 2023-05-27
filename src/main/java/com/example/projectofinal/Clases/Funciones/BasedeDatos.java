@@ -18,6 +18,16 @@ public class BasedeDatos implements Serializable {
     private String puerto;
     private String ip;
     private String type;
+
+    /**
+     * Constructor de Base de Datos
+     * @param ip host de la BD
+     * @param puerto puerto por donde escucha la app gestora (Postgres o MySQL)
+     * @param nomBd nombre de la BD
+     * @param username nombre del usuario
+     * @param passwrd contraseña del usuario
+     * @param type si es de MySQL o de PostgreSQL
+     */
     public BasedeDatos(String ip, String puerto, String nomBd, String username, String passwrd,String type){
         this.type=type;
         this.url="jdbc:"+type+"://"+ip+":"+puerto+"/"+nomBd;
@@ -28,10 +38,20 @@ public class BasedeDatos implements Serializable {
         this.puerto=puerto;
         this.ip=ip;
     }
+
+    /**
+     * Función que devuelve el tipo de gestor de la BD
+     * @return el typo de gestor de la BD
+     */
+
     public String getType() {
         return type;
     }
 
+    /**
+     * Fucnión que devuelve la conexión a la base de datos
+     * @return Connection, para realizar la connexion
+     */
     public Connection getConexion() {
         if (conexion == null) {
             if(type.equals("postgresql")){
@@ -53,13 +73,12 @@ public class BasedeDatos implements Serializable {
     }
         return conexion;
     }
-    public void closeConection(){
-        try {
-            conexion.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
+    /**
+     * Función que devuelve el nombre de las tablas en la BD
+     * @return Lista de los nombres de las tablas de esta BD
+     * @throws SQLException excepción para lenguaje SQL
+     */
     public List<String> getTablas() throws SQLException {
         Statement stmt = getConexion().createStatement();
         List<String> tables = new ArrayList<>();
@@ -91,10 +110,21 @@ public class BasedeDatos implements Serializable {
         return tables;
     }
 
+    /**
+     * Función toString para que muestre lo que queremos de la BD
+     * @return devuelve el String de la BD
+     */
     @Override
     public String toString(){
         return nameBD+" "+username;
     }
+
+    /**
+     * Función para obtener las columnas de una tabla
+     * @param string es el nombre de la tabla
+     * @return devuelve el nombre de las columnas en una lista de Strings
+     * @throws SQLException excepción para lenguaje SQL
+     */
 
     public List<String[]> getColumnasTabla(String string) throws SQLException {
         String sql = "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '"+string+"'";
@@ -111,6 +141,13 @@ public class BasedeDatos implements Serializable {
         stmt.close();
         return columns;
     }
+
+    /**
+     * Función para obtener el typo de dato de cada columna
+     * @param colum nombre de la columna
+     * @return typo de dato de esa columna
+     * @throws SQLException excepción para lenguaje SQL
+     */
     public String getTypeColumn(String colum) throws SQLException{
         String sql = "SELECT data_type FROM information_schema.columns WHERE table_name = '"+ MainApplication.getTabla() +"' AND column_name = '"+colum+"';";
         Statement stmt = getConexion().createStatement();
@@ -121,7 +158,11 @@ public class BasedeDatos implements Serializable {
         return null;
     }
 
-
+    /**
+     * Función para poder exportar la BD
+     * @param path ruta de destino de la exportación
+     * @throws IOException excepción para abrir ficheros
+     */
     public void exportBD(String path) throws IOException {
         String ruta = path + "/" + nameBD + ".sql";
         List<String> commands = new ArrayList<>();
@@ -214,6 +255,11 @@ public class BasedeDatos implements Serializable {
         }
     }
 
+    /**
+     * Función para importar datos de una BackUp
+     * @param path ruta del fichero
+     * @throws IOException excepción para abrir ficheros
+     */
     public void importBD(String path) throws IOException {
             String ruta = path;
             List<String> commands = new ArrayList<>();
@@ -295,22 +341,42 @@ public class BasedeDatos implements Serializable {
     });
     }
 
+    /**
+     * Obtener el nombre d ela BD
+     * @return nombre BD
+     */
     public String getNameBD(){
         return nameBD;
     }
 
+    /**
+     * Obtener la contraseña del usuario de la BD
+     * @return contraseña
+     */
     public String getPasswrd() {
         return passwrd;
     }
 
+    /**
+     * Obtener el nombre del usuario de la BD
+     * @return nombre usuario
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Obtener la IP de la BD
+     * @return ip
+     */
     public String getIp() {
         return ip;
     }
 
+    /**
+     * Obtener el puerto de la BD
+     * @return puerto
+     */
     public String getPuerto() {
         return puerto;
     }

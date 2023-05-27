@@ -28,12 +28,20 @@ private RadioButton azul;
 
     private String estilo;
 
+    /**
+     * Función implementada por la interface Initializable, lo que hace que se ejecute este metodo nadamas empezar
+     * @param url no lo uso
+     * @param resourceBundle no lo uso
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         logicaRadioButtons();
 
     }
 
+    /**
+     * Función que realiza la logica de los radiobuttons
+     */
     private void logicaRadioButtons() {
         ToggleGroup group = new ToggleGroup();
         rojo.setToggleGroup(group);
@@ -69,6 +77,9 @@ private RadioButton azul;
 
     }
 
+    /**
+     * Función que permite establecer un estilocss
+     */
     public void setStyleCSS(){
         switch (estilo){
             case "rojo" -> MainApplication.cambiarEstilo("CSS/rojo.css");
@@ -80,6 +91,9 @@ private RadioButton azul;
         }
     }
 
+    /**
+     * Función que elimina los estilos CSS
+     */
     public void drpoStyleCSS() {
         MainApplication.deleteStyle();
     }
