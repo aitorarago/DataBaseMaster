@@ -2,13 +2,11 @@ package com.example.projectofinal.Clases.Funciones;
 
 import com.example.projectofinal.DataMasterController;
 import com.example.projectofinal.MainApplication;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -244,7 +242,7 @@ public class CrearConectorBD extends DataMasterController implements Initializab
                     st.close();
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Base de Datos Creada");
-                    alert.setContentText("Para entrar en esta BD nueva, necesitas acceder con el usuario :"+MainApplication.getDB().getUsername()+" y su contraseña.");
+                    alert.setContentText("Se ha guardado la Base de Datos, necesitas acceder con el usuario :"+MainApplication.getDB().getUsername()+" y su contraseña.");
                     alert.showAndWait();
                     alert.setOnCloseRequest(dialogEvent -> {
                         try {

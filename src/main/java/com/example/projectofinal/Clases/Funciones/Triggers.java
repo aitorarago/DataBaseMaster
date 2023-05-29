@@ -94,6 +94,7 @@ public class Triggers extends DataMasterController implements Initializable {
      * Función para visualizar las tablas en SplitMenuButton
      */
     private void visualizartablas() {
+        tbid.getItems().clear();
         tbid.setVisible(true);
         tbid.setText("Selecciona una opción");
         try {
